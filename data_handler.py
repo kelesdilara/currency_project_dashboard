@@ -33,17 +33,15 @@ try:
         for row in csv_reader:
             date_str = row['date']
             value = float(row['value'])
-
             date_time = datetime.datetime.strptime(date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
 
             point = Point(f"eur_exchange_{filename}") \
-                .tag("currency", f"{str(filename).upper()}") \
+                .tag("currency", f"{filename}") \
                 .field("rate", value) \
                 .time(date_time)
 
             write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
             counter += 1
-            print(counter)
 
     client.close()
 
