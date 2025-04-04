@@ -1,0 +1,4 @@
+INFLUXDB_URL=http://your_host_address:8086
+INFLUXDB_TOKEN=your_db_token
+INFLUXDB_ORG=your_org_name
+INFLUXDB_BUCKET=dovizdb

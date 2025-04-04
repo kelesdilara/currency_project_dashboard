@@ -5,13 +5,14 @@ import datetime
 from datetime import timezone
 import time
 import csv
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-# InfluxDB bağlantı bilgileri
-INFLUXDB_URL = "http://localhost:8086"
-INFLUXDB_TOKEN = "0xp5VcOdxDo_flh8LiLlvzMsjs398lTU_zT--WgoLxOLfDEJ-50ddwaXe17nSlcPIGI9thogjsF_DgxvQXptXA=="
-INFLUXDB_ORG = "my-org"
-INFLUXDB_BUCKET = "dovizdb"
-
+INFLUXDB_URL = os.getenv("INFLUXDB_URL")
+INFLUXDB_TOKEN = os.getenv("INFLUXDB_TOKEN")
+INFLUXDB_ORG = os.getenv("INFLUXDB_ORG")
+INFLUXDB_BUCKET = os.getenv("INFLUXDB_BUCKET")
 client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
@@ -32,7 +33,7 @@ with open(csv_file_path, mode='r') as file:
             .time(date_time)
 
         write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
-        counter +=1
+        counter += 1
         print(counter)
 
 

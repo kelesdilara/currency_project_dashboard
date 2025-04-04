@@ -1,16 +1,18 @@
-from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
-import requests
 import datetime
 from datetime import timezone
-import time
 import csv
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-# InfluxDB bağlantı bilgileri
-INFLUXDB_URL = "http://localhost:8086"
-INFLUXDB_TOKEN = "0xp5VcOdxDo_flh8LiLlvzMsjs398lTU_zT--WgoLxOLfDEJ-50ddwaXe17nSlcPIGI9thogjsF_DgxvQXptXA=="
-INFLUXDB_ORG = "my-org"
-INFLUXDB_BUCKET = "dovizdb"
+
+INFLUXDB_URL = os.getenv("INFLUXDB_URL")
+INFLUXDB_TOKEN = os.getenv("INFLUXDB_TOKEN")
+INFLUXDB_ORG = os.getenv("INFLUXDB_ORG")
+INFLUXDB_BUCKET = os.getenv("INFLUXDB_BUCKET")
+
 
 client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
 write_api = client.write_api(write_options=SYNCHRONOUS)
