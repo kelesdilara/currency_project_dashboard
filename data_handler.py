@@ -6,7 +6,10 @@ from datetime import timezone
 import csv
 import os
 from dotenv import load_dotenv
+from logger import setup_logger
 load_dotenv()
+
+logger = setup_logger(__name__)
 
 INFLUXDB_URL = os.getenv("INFLUXDB_URL")
 INFLUXDB_TOKEN = os.getenv("INFLUXDB_TOKEN")
@@ -15,11 +18,12 @@ INFLUXDB_BUCKET = os.getenv("INFLUXDB_BUCKET")
 client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-# Todo: create a logger.py script and initiate logger here and provide wider information
+
 
 
 if len(sys.argv) != 2:
-    print("Usage: no argument (currency name) provided")
+
+    logger.error("Usage: no argument (currency name) provided")
     sys.exit(1)
 
 # Read the file name from the command line argument
@@ -45,10 +49,14 @@ try:
 
     client.close()
 
-    print("Data successfully written to InfluxDB!")
+
+    logger.info("Data successfully written to InfluxDB!")
 
 except FileNotFoundError:
-    print(f"Error: There is no csv file for: {filename}")
+
+    logger.error(f"Error: There is no csv file for: {filename}")
+
 
 except Exception as e:
-    print(f'An error occured: {str(e)}')
+
+    logger.exception(f'An error occured: {str(e)}')
