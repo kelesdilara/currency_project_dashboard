@@ -72,3 +72,9 @@ After logging in to Grafana:
 - Data is written to InfluxDB using the `influxdb_client` library.
 - A custom logging module is implemented in `logger.py`.
 - CSV parsing and timestamp formatting are done using Python's `datetime` module.
+
+
+## Grafana dashboard
+
+![Screenshot](/imagine/img.png)
+
